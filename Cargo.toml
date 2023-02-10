@@ -2,13 +2,13 @@
 name = "hands-on-rust"
 version = "0.1.0"
 authors = ["M.-Leander Reimer <mario-leander.reimer@qaware.de>"]
-edition = "2018"
+edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
 structopt = "0.3.13"
 log = "0.4.0"
-env_logger = "0.8.2"
+env_logger = "0.9.0"
 reqwest = { version = "0.11", features = ["json"] }
 serde = {version = "1.0.61", features = ["derive"]}
 serde_json = "1.0.61"
