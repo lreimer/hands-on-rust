@@ -1,51 +1,22 @@
-#[macro_use]
-extern crate log;
+mod fizzbuzz;
 
-use env_logger::Env;
-use structopt::StructOpt;
+use clap::Parser;
+use fizzbuzz::FizzBuzz;
 
-use serde::{Deserialize};
-
-/// Display list of pods in Kubernetes namespace
-#[derive(StructOpt)]
-struct Cli {
-    /// The Kubernetes namespace
-    namespace: String,
+/// Hello FizzBuzz
+#[derive(Parser, Debug)]
+#[command(author, version, about, long_about = None)]
+struct Args {
+    /// The number to calculate FizzBuzz for
+    #[arg(short, long, default_value_t = 30)]
+    number: i32,
 }
 
-/// JSON definition of a PodList
-#[derive(Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
-struct PodList {
-    kind: String,
-    api_version: String,
-    items: Vec<Item>,
-}
+fn main() {
+    let args = Args::parse();
 
-#[derive(Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
-struct Item {
-    metadata: Metadata,
-}
-
-#[derive(Deserialize, Debug)]
-#[serde(rename_all = "camelCase")]
-struct Metadata {
-    name: String,
-}
-
-#[tokio::main]
-async fn main() -> Result<(), reqwest::Error> {
-    env_logger::Builder::from_env(Env::default().default_filter_or("info")).init();
-    
-    let args = Cli::from_args();
-    info!("Getting pods for namespace {}", &args.namespace);
-
-    let request_url = format!("http://localhost:8001/api/v1/namespaces/{namespace}/pods",
-                              namespace = &args.namespace);
-    let response = reqwest::get(&request_url).await?;
-
-    let pods: PodList = response.json().await?;
-    println!("{:?}", pods);
-    Ok(())
+    for number in 1..=args.number {
+        let fizzbuzz = FizzBuzz::new(number);
+        println!("{}", fizzbuzz.fizzbuzz())
+    }
 }

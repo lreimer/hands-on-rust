@@ -1,13 +1,12 @@
 # Hands-on Rust
 
-Demo repository for my Rust language experiments. Basically, this is a simple REST client
-to call the Kubernetes API and retrieve the list of pods for a namespace.
+Demo repository for my Rust language experiments. A FizzBuzz implementation.
 
 ## Building and Running
 
 ```bash
-$ kubectl proxy &
-$ cargo run -- kube-system
+cargo run -- --help
+cargo run -- --count 23
 ```
 
 ## Maintainer
